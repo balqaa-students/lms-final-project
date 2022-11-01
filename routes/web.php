@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\YearsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,10 +21,10 @@ Route::get('/', function () {
 
 
 
+Route::prefix('dashboard')->as('dashboard.')->middleware(['auth'])->group( function(){
+    Route::get('/', [DashboardController::class , 'index'] )->name('home');
+    Route::resource('years', YearsController::class);
+} );
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

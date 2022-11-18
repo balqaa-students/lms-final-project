@@ -34,40 +34,26 @@
 <script src="{{ asset('dashboard/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dashboard/dist/js/demo.js') }}"></script>
+{{-- jquery confirm --}}
+<script src="{{ asset('dashboard/assets/js/jquery-confirm.js') }}"></script>
+
 
 <script>
     $(function() {
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 4000
-        });
         @if ( Session::has('success') )
-            Toast.fire({
-                icon: 'success',
-                title: "{{ Session::get('success') }}"
-            })
+            toastr.success("{{ Session::get('success') }}")
         @endif
+
         @if ( Session::has('info') )
-            Toast.fire({
-                icon: 'info',
-                title: "{{ Session::get('info') }}"
-            })
+            toastr.info("{{ Session::get('info') }}")
         @endif
 
         @if ( Session::has('warning') )
-            Toast.fire({
-                icon: 'warning',
-                title: "{{ Session::get('warning') }}"
-            })
+            toastr.warning("{{ Session::get('warning') }}")
         @endif
 
-        @if ( Session::has('error') )
-            Toast.fire({
-                icon: 'error',
-                title: "{{ Session::get('error') }}"
-            })
+        @if ( Session::has('danger') )
+            toastr.error("{{ Session::get('danger') }}")
         @endif
     });
 </script>

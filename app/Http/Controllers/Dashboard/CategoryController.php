@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Year;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class YearsController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,18 @@ class YearsController extends Controller
      */
     public function index()
     {
-        $years = Year::all();
-        return view('dashboard.years.index', compact('years'));
+        $categories = Category::all();
+        return view('dashboard.categories.index' , compact('categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -27,17 +37,17 @@ class YearsController extends Controller
      */
     public function store(Request $request)
     {
-        Year::create($request->except('is_removable'));
-        return redirect()->back()->with('success' , 'year created successfully');
+        Category::create($request->except('is_removable'));
+        return redirect()->back()->with('success' , 'category created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
         //
     }
@@ -45,10 +55,10 @@ class YearsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
         //
     }
@@ -57,25 +67,24 @@ class YearsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Year $year)
+    public function update(Request $request, Category $category)
     {
-        $year->update($request->all());
+        $category->update($request->all());
         return redirect()->back()->with('success' , 'year updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        Year::destroy($id);
+        $category->delete();
         return redirect()->back()->with('danger' , 'year deleted !');
-
     }
 }

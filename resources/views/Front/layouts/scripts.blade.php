@@ -20,3 +20,5 @@
  <script src="{{ asset('Front/assets/js/vendor/tilt.jquery.min.js')}}"></script>
  <!-- Main JS -->
  <script src="{{ asset('Front/assets/js/main.js')}}"></script>
+ {{-- Mix It Up --}}
+ <script src="{{ asset('assets/js/mixitup.min.js') }}"></script>

@@ -23,16 +23,19 @@
     <link rel="stylesheet" href="{{ asset('Front/assets/css/vendor/animation.css')}}">
     <link rel="stylesheet" href="{{ asset('Front/assets/css/vendor/jqueru-ui-min.css')}}">
     <link rel="stylesheet" href="{{ asset('Front/assets/css/style.css')}}">
+    @stack('styles')
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>
     <div class="main-wrapper">
         {{-- main nav --}}
-        @include('Front.layouts.main-nav')
+        @include('Front.layouts.main-nav' , ['years' => app\Models\Year::all()])
 
         {{-- mobile-nav --}}
         @include('Front.layouts.mobile-nav')
 
+        @yield('breadcrump')
         @yield('content')
 
         <!-- Start Footer Area  -->
@@ -48,6 +51,8 @@
     <!-- JS
 ============================================ -->
     @include('Front.layouts.scripts')
+
+    @stack('scripts')
 </body>
 
 </html>

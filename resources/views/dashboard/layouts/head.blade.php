@@ -27,5 +27,10 @@
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/toastr/toastr.min.css')}}">
-    @vite('resources/js/app.js')
+    {{-- jquery conform --}}
+    <link rel="stylesheet" href="{{ asset('dashboard/assets/css/jquery-confirm.css')}}">
+
+
+    @stack('styles')
+    @vite(['resources/js/app.js'])
 </head>

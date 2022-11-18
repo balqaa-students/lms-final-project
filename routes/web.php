@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\MembersController;
+use App\Http\Controllers\Dashboard\TopicsController;
 use App\Http\Controllers\Dashboard\YearsController;
+use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +20,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('Front.index');
-});
+Route::get('/', [HomeController::class , 'index']);
+Route::get('topics/{year}' , [HomeController::class , 'topics'])->name('home.topics');
 
 
 
 Route::prefix('dashboard')->as('dashboard.')->middleware(['auth'])->group( function(){
     Route::get('/', [DashboardController::class , 'index'] )->name('home');
     Route::resource('years', YearsController::class);
+    Route::resource('categories' , CategoryController::class);
+    Route::resource('topics' , TopicsController::class);
+    Route::resource('members' , MembersController::class);
 } );
-
 
 require __DIR__.'/auth.php';

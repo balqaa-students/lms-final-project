@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Year;
+use App\Models\Materials;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,5 +20,8 @@ class Topic extends Model
     }
     public function category(){
         return $this->belongsTo( Category::class , 'category_id' , 'id' );
+    }
+    public function materials(){
+        return $this->hasMany(Materials::class);
     }
 }

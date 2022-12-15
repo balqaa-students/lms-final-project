@@ -36,12 +36,12 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h3 class="card-title">Topics Table</h3>
-                    <button type="button" class="btn btn-default mr-0" data-toggle="modal" data-target="#modal-lg">
+                    <button type="button" class="mr-0 btn btn-default" data-toggle="modal" data-target="#modal-lg">
                         Add New Topic
                     </button>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
+                <div class="p-0 card-body table-responsive">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
@@ -51,6 +51,7 @@
                                 <th>Description</th>
                                 <th>Year</th>
                                 <th>Category</th>
+                                <th>Materials</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -64,13 +65,17 @@
                                 <td>{{ $topic->description }}</td>
                                 <td>{{ $topic->year->name }}</td>
                                 <td>{{ $topic->category->name }}</td>
+                                <td>{{ $topic->materials_count }}</td>
                                 <td>
                                     <div class="d-flex">
+                                        <a href="{{ route('dashboard.materials.index' , ['topic_id' => $topic->id]) }}" class="mr-2 btn btn-sm btn-outline-secondary" >
+                                            <i class="fas fa-file-upload"></i>
+                                        </a>
                                         <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-{{ $topic->id }}">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
-                                        <button class="ml-3 btn btn-sm btn-outline-danger delete-btn">
+                                        <button class="ml-2 btn btn-sm btn-outline-danger delete-btn">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                         <form action="{{ route('dashboard.topics.destroy' , $topic->id) }}" method="POST" class="delete-form">

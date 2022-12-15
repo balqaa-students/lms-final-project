@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\MaterialsController;
 use App\Http\Controllers\Dashboard\MembersController;
 use App\Http\Controllers\Dashboard\TopicsController;
 use App\Http\Controllers\Dashboard\YearsController;
@@ -31,6 +32,7 @@ Route::prefix('dashboard')->as('dashboard.')->middleware(['auth'])->group( funct
     Route::resource('categories' , CategoryController::class);
     Route::resource('topics' , TopicsController::class);
     Route::resource('members' , MembersController::class);
+    Route::resource('materials', MaterialsController::class);
 } );
 
 require __DIR__.'/auth.php';

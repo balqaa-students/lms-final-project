@@ -20,7 +20,7 @@ class TopicsController extends Controller
     {
         $years = Year::all();
         $categories = Category::all();
-        $topics = Topic::with('year' , 'category')->get();
+        $topics = Topic::with('year' , 'category')->withCount('materials')->get();
         return view('dashboard.topics.index' , compact('years' , 'categories', 'topics'));
     }
 
@@ -120,6 +120,9 @@ class TopicsController extends Controller
     public function destroy($id)
     {
         $topic = Topic::findOrFail($id);
+        if(count($topic->materials) > 0){
+            return redirect()->back()->with('danger' , "topic has materials, you can't delete it");
+        }
         $topic->delete();
 
         Storage::disk('public')->delete($topic->image);

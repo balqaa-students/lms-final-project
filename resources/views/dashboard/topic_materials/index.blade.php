@@ -1,4 +1,5 @@
-@extends('dashboard.layouts.app', ['activePage' => 'members'])
+@extends('dashboard.layouts.app', ['activePage' => 'topics'])
+
 
 @push('styles')
     <style>
@@ -35,9 +36,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h3 class="card-title">Members Table</h3>
+                    <h3 class="card-title">Topics Table</h3>
                     <button type="button" class="mr-0 btn btn-default" data-toggle="modal" data-target="#modal-lg">
-                        Add New Member
+                        Add New Material
                     </button>
                 </div>
                 <!-- /.card-header -->
@@ -47,37 +48,27 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Image</th>
-                                <th>Description</th>
-                                <th>Social Links</th>
+                                <th>Category</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($members as $member)
+                            @forelse ($topic->materials as $material)
 
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $member->name }}</td>
-                                <td><img src="{{ asset('storage/'.$member->image) }}" alt="" style="width: 60px; height: 60px;"></td>
-                                <td>{{ $member->description }}</td>
-                                <td>
-                                    <ul>
-                                        @foreach ($member->social_links as $key => $value)
-                                        <li>{{ $key }} : {{$value}}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
+                                <td>{{ $material->name }}</td>
+                                <td>{{ $material->category_id }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-{{ $member->id }}">
+                                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-{{ $material->id }}">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
-                                        <button class="ml-3 btn btn-sm btn-outline-danger delete-btn">
+                                        <button class="ml-2 btn btn-sm btn-outline-danger delete-btn">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
-                                        <form action="{{ route('dashboard.members.destroy' , $member->id) }}" method="POST" class="delete-form">
+                                        <form action="{{ route('dashboard.materials.destroy' , $material->id) }}" method="POST" class="delete-form">
                                             @csrf
                                             @method('delete')
                                         </form>
@@ -86,47 +77,43 @@
                             </tr>
 
                             {{-- Update Modal --}}
-                            <div class="modal fade" id="modal-{{ $member->id }}">
+                            <div class="modal fade" id="modal-{{ $material->id }}">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Update member informations</h4>
+                                            <h4 class="modal-title">Update topic</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="{{ route('dashboard.members.update' , $member->id) }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('dashboard.materials.update' , $material->id) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('put')
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    @if ($member->image)
-                                                        <label for="update-image-{{$member->id}}" class="preview-img">
-                                                            <img src="{{ asset('storage/'.$member->image) }}" class="img-fluid" >
+                                                    @if ($material->file)
+                                                        <label for="update-image-{{$material->id}}" class="preview-img">
+                                                            <i class="fas fa-file"></i>
                                                         </label>
                                                     @else
-                                                        <label for="update-image-{{$member->id}}" class="preview-img">
+                                                        <label for="update-image-{{$material->id}}" class="preview-img">
                                                             <i class="ri-image-line"></i>
-                                                            <p>upload image</p>
+                                                            <p>Upload File</p>
                                                         </label>
                                                     @endif
-                                                    <input type="file" name="image" class="custom-file-input" id="update-image-{{$member->id}}" style="opacity: 0" accept="image/*">
+                                                    <input type="file" name="file" class="custom-file-input" id="update-image-{{$material->id}}" style="opacity: 0" accept="image/*">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="name">Name</label>
-                                                    <input type="text" name="name" value="{{ $member->name }}" class="form-control" id="name" required placeholder="name">
+                                                    <label for="title">Name</label>
+                                                    <input type="text" name="name" value="{{ $material->name }}" class="form-control" id="name" placeholder="Name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="description">Description</label>
-                                                    <input type="text" name="description" value="{{ $member->description }}" class="form-control" required id="description" placeholder="Description">
-                                                </div>
-                                                <hr>
-                                                <h5>Social Links</h5>
-                                                <hr>
-                                                <div class="form-group">
-                                                    <input type="text" name="social_links[facebook]"  value="{{ $member->social_links['facebook'] ?? '' }}" class="form-control" placeholder="facebook">
-                                                    <input type="number" name="social_links[phone]"  value="{{ $member->social_links['phone']  ?? '' }}" class="form-control" placeholder="phone">
-                                                    <input type="email" name="social_links[email]"  value="{{ $member->social_links['email'] ??  '' }}" class="form-control" placeholder="email">
+                                                    <label for="year">Category</label>
+                                                    <select class="form-control" name="category_id" id="year" aria-label="Default select example">
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}" @selected($material->category_id == $category->name)>{{ $category->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="modal-footer justify-content-between">
@@ -139,16 +126,16 @@
                                 </div>
                                 <!-- /.modal-dialog -->
                             </div>
-
                         @empty
                         <tr >
-                            <td colspan="7">
-                                <h3 class="text-center">There isn't any member yet !</h3>
+                            <td colspan="4">
+                                <h3 class="text-center">There isn't any material yet !</h3>
                             </td>
                         </tr>
                         @endforelse
 
                         </tbody>
+
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -159,37 +146,34 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Add new member</h4>
+                                <h4 class="modal-title">Add new material</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ route('dashboard.members.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('dashboard.materials.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="image" class="preview-img">
                                             <i class="ri-image-line"></i>
-                                            <p>upload image</p>
+                                            <p>upload file</p>
                                         </label>
-                                        <input type="file" name="image" required class="custom-file-input" id="image" style="opacity: 0" accept="image/*">
+                                        <input type="file" name="file" required class="custom-file-input" id="image" style="opacity: 0" accept="application/*">
                                     </div>
                                     <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name" class="form-control" id="name" required placeholder="name">
+                                        <label for="title">Name</label>
+                                        <input type="text" name="name" class="form-control" id="title" required placeholder="Title">
                                     </div>
                                     <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <input type="text" name="description" class="form-control" required id="description" placeholder="Description">
+                                        <label for="year">Category</label>
+                                        <select class="form-control" name="category_id" id="year" aria-label="Default select example">
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}" >{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <hr>
-                                    <h5>Social Links</h5>
-                                    <hr>
-                                    <div class="form-group">
-                                        <input type="text" name="social_links[facebook]" class="form-control" placeholder="facebook">
-                                        <input type="number" name="social_links[phone]" class="form-control" placeholder="phone">
-                                        <input type="email" name="social_links[email]" class="form-control" placeholder="email">
-                                    </div>
+                                    <input type="hidden" name="topic_id" value="{{$topic->id}}">
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -214,7 +198,7 @@
     $('.delete-btn').on('click' , function(){
         let delete_btn = $(this)
         $.confirm({
-            title: 'Topic will be deleted!',
+            title: 'Material will be deleted!',
             type: 'red',
             typeAnimated: true,
             buttons: {
@@ -231,13 +215,11 @@
         });
     })
 
-        // Preview Image
-        $('.custom-file-input').on('change', function(e) {
-            const file = e.target.files[0];
-            const url = URL.createObjectURL(file);
-            const img = `<img src="${url} " class="img-fluid uploaded-image" />`;
-            $('.preview-img').html( img );
-        });
+       // Preview Image
+    $('.custom-file-input').on('change', function(e) {
+        const img = `<i class="fas fa-file-upload fs-4"></i>`;
+        $('.preview-img').html( img );
+    });
 </script>
 
 @endpush

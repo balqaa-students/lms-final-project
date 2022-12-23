@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('topic_id')->constrained('topics');
             $table->string('file')->onDelete('cascade');
             $table->string('name');
+            $table->integer('downloads_number')->default(0);
             $table->foreignId('category_id')->constrained('material_categories');
             $table->timestamps();
         });

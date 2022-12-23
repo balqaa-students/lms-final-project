@@ -30,7 +30,7 @@
 <body>
     <div class="main-wrapper">
         {{-- main nav --}}
-        @include('Front.layouts.main-nav' , ['years' => app\Models\Year::all()])
+        @include('Front.layouts.main-nav' , ['years' => App\Models\Year::all()])
 
         {{-- mobile-nav --}}
         @include('Front.layouts.mobile-nav')

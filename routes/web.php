@@ -21,8 +21,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 |
 */
 
-Route::get('/', [HomeController::class , 'index']);
+Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('topics/{year}' , [HomeController::class , 'topics'])->name('home.topics');
+Route::get('materials/{topic}' , [HomeController::class , 'materials'])->name('home.materials');
+Route::get('/download/{file}', [HomeController::class , 'download'])->where('file', '.*')->name('download');
+
 
 
 

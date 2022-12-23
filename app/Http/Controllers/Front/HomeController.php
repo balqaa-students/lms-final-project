@@ -8,6 +8,8 @@ use App\Models\Member;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\MaterialCategory;
+use App\Models\Materials;
 
 class HomeController extends Controller
 {
@@ -24,5 +26,20 @@ class HomeController extends Controller
         }])->get();
         $topics = Topic::where('year_id' , $year->id )->get();
         return view('Front.topics' ,compact('categories' , 'year' , 'topics') );
+    }
+
+    public function materials($topic_id){
+        // dd('hello');
+        $topic = Topic::findOrFail($topic_id);
+        $materials = Materials::where('topic_id' , $topic_id)->get();
+        $categories = MaterialCategory::withCount(['materials' => function($q) use ($topic_id){
+            $q->where('topic_id' , $topic_id);
+        }])->get();
+        // dd($categories);
+        return view('Front.materials', compact('topic' , 'materials' , 'categories'));
+    }
+
+    public function download($file){
+        return response()->download(public_path('storage/'.$file));
     }
 }

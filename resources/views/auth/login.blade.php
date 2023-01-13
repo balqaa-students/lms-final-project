@@ -20,7 +20,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <a href="../../index2.html"><b>SPEED</b>ACCESS</a>
         </div>
         <div class="card">
             <div class="card-body login-card-body">
@@ -28,7 +28,7 @@
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <div class="input-group mb-3">
+                    <div class="mb-3 input-group">
                         <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="mb-3 input-group">
                         <input type="password" name="password" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">

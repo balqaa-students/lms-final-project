@@ -101,7 +101,7 @@
                                                             <p>Upload File</p>
                                                         </label>
                                                     @endif
-                                                    <input type="file" name="file" class="custom-file-input" id="update-image-{{$material->id}}" style="opacity: 0" accept="image/*">
+                                                    <input type="file" name="file" class="custom-file-input" id="update-image-{{$material->id}}" style="opacity: 0" >
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="title">Name</label>

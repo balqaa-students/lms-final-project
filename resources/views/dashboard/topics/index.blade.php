@@ -65,12 +65,14 @@
                                 <td>{{ $topic->description }}</td>
                                 <td>{{ $topic->year->name }}</td>
                                 <td>{{ $topic->category->name }}</td>
-                                <td>{{ $topic->materials_count }}</td>
+                                <td class="d-flex justify-content-around">
+                                    {{ $topic->materials_count }}
+                                    <a href="{{ route('dashboard.materials.index' , ['topic_id' => $topic->id]) }}" class="mr-2 btn btn-sm btn-outline-secondary" >
+                                        <i class="fas fa-file-upload"></i>
+                                    </a>
+                                </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('dashboard.materials.index' , ['topic_id' => $topic->id]) }}" class="mr-2 btn btn-sm btn-outline-secondary" >
-                                            <i class="fas fa-file-upload"></i>
-                                        </a>
                                         <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modal-{{ $topic->id }}">
                                             <i class="fas fa-edit"></i>
                                         </button>
